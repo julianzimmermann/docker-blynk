@@ -1,0 +1,29 @@
+version: "3.7"
+services:
+  blynk:
+    build: .
+    container_name: ${PROJECT_NAME}_server
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.blynk.entrypoints=http"
+      - "traefik.http.routers.blynk.rule=Host(`${BLYNK_HOST}`)"
+      - "traefik.http.services.blynk.loadbalancer.server.port=8080"
+      - "traefik.http.routers.blynk-sec.entrypoints=https"
+      - "traefik.http.routers.blynk-sec.rule=Host(`${BLYNK_HOST}`)"
+      - "traefik.http.routers.blynk-sec.tls=true"
+      - "traefik.http.routers.blynk-sec.tls.options=myTLSOptions@file"
+      - "traefik.http.routers.blynk-sec.tls.certresolver=le"
+      - "traefik.http.routers.blynk-sec.service=api@internal"
+      - "traefik.http.services.blynk-sec.loadbalancer.server.port=9443"
+    restart: always
+    ports:
+      - 8080
+      - 9443
+    environment:
+      VIRTUAL_HOST: ${BLYNK_HOST}
+    networks:
+      - web
+
+networks:
+  web:
+    external: true
