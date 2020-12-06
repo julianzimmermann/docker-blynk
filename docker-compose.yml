@@ -7,20 +7,28 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.blynk.entrypoints=http"
       - "traefik.http.routers.blynk.rule=Host(`${BLYNK_HOST}`)"
-      - "traefik.http.services.blynk.loadbalancer.server.port=8080"
+      - "traefik.http.services.blynk.loadbalancer.server.port=${BLYNK_HTTP_PORT}"
       - "traefik.http.routers.blynk-sec.entrypoints=https"
       - "traefik.http.routers.blynk-sec.rule=Host(`${BLYNK_HOST}`)"
       - "traefik.http.routers.blynk-sec.tls=true"
       - "traefik.http.routers.blynk-sec.tls.options=myTLSOptions@file"
       - "traefik.http.routers.blynk-sec.tls.certresolver=le"
       - "traefik.http.routers.blynk-sec.service=api@internal"
-      - "traefik.http.services.blynk-sec.loadbalancer.server.port=9443"
+      - "traefik.http.services.blynk-sec.loadbalancer.server.port=${BLYNK_HTTPS_PORT}"
     restart: always
     ports:
-      - 8080
-      - 9443
+      - ${BLYNK_HTTP_PORT}
+      - ${BLYNK_HTTPS_PORT}
     environment:
-      VIRTUAL_HOST: ${BLYNK_HOST}
+      BLYNK_HOST: ${BLYNK_HOST}
+      BLYNK_DATA_FOLDER: ${BLYNK_DATA_FOLDER}
+      BLYNK_CONFIG_FOLDER: ${BLYNK_CONFIG_FOLDER}
+      BLYNK_LOG_FOLDER: ${BLYNK_LOG_FOLDER}
+      BLYNK_ADMIN_EMAIL: ${BLYNK_ADMIN_EMAIL}
+      BLYNK_ADMIN_PASSWORD: ${BLYNK_ADMIN_PASSWORD}
+      BLYNK_CONTACT_EMAIL: ${BLYNK_CONTACT_EMAIL}
+      BLYNK_HTTP_PORT: ${BLYNK_HTTP_PORT}
+      BLYNK_HTTPS_PORT: ${BLYNK_HTTPS_PORT}
     networks:
       - web
 
