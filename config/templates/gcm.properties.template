@@ -1,0 +1,4 @@
+gcm.api.key=AAAAucxWLNg:APA91bHqxdmVmvu6rpENVXfSM...
+gcm.server=https://fcm.googleapis.com/fcm/send
+notification.body=Your {DEVICE_NAME} went offline.
+notification.title={PRODUCT_NAME} Notification

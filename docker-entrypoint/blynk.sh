@@ -31,6 +31,7 @@ if [ ! -f "$BLYNK_FOLDER"/"$blynkFileName" ]; then
 fi
 
 envsubst < /etc/blynk/config/server.properties.template > "$BLYNK_CONFIG_FOLDER"/server.properties
+envsubst < /etc/blynk/config/mail.properties.template > "$BLYNK_FOLDER"/mail.properties
 
 nohup java -jar "$BLYNK_FOLDER"/"$blynkFileName" -dataFolder "$BLYNK_DATA_FOLDER" -serverConfig "$BLYNK_CONFIG_FOLDER"/server.properties
 

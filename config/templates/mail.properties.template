@@ -1,0 +1,8 @@
+mail.smtp.username=${BLYNK_SMTP_USERNAME}
+mail.smtp.port=${BLYNK_SMTP_PORT}
+mail.smtp.password=${BLYNK_SMTP_PASSWORD}
+mail.smtp.auth=${BLYNK_SMTP_AUTH}
+mail.smtp.starttls.enable=${BLYNK_SMTP_STARTTLS}
+mail.smtp.timeout=${BLYNK_SMTP_TIMEOUT}
+mail.smtp.host=${BLYNK_SMTP_HOST}
+mail.smtp.connectiontimeout=${BLYNK_SMTP_CONNECTIONTIMEOUT}
