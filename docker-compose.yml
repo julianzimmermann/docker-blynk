@@ -8,6 +8,7 @@ services:
       - "traefik.http.middlewares.https-redirect.redirectscheme.scheme=https"
       - "traefik.http.middlewares.https-redirect.redirectscheme.permanent=true"
       - "traefik.http.routers.${PROJECT_NAME}.service=${PROJECT_NAME}"
+      - "traefik.http.routers.${PROJECT_NAME}.entrypoints=http"
       - "traefik.http.routers.${PROJECT_NAME}.rule=Host(`${BLYNK_CONFIG_HOST}`)"
       - "traefik.http.routers.${PROJECT_NAME}.middlewares=https-redirect"
       - "traefik.http.services.${PROJECT_NAME}.loadbalancer.server.port=${BLYNK_CONFIG_HTTP_PORT}"
