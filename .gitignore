@@ -5,4 +5,5 @@
 !/data/.gitkeep
 /data/*/*
 /log/*.log
+/log/*/*.log.*
 **.properties
