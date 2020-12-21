@@ -5,25 +5,25 @@ services:
     container_name: ${PROJECT_NAME}
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.${PROJECT_NAME}.rule=Host(`${BLYNK_CONFIG_HOST}`)"
-      - "traefik.http.routers.${PROJECT_NAME}.entrypoints=http"
+      - "traefik.http.middlewares.https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.https-redirect.redirectscheme.permanent=true"
       - "traefik.http.routers.${PROJECT_NAME}.service=${PROJECT_NAME}"
+      - "traefik.http.routers.${PROJECT_NAME}.entrypoints=http"
+      - "traefik.http.routers.${PROJECT_NAME}.rule=Host(`${BLYNK_CONFIG_HOST}`)"
+      - "traefik.http.routers.${PROJECT_NAME}.middlewares=https-redirect"
       - "traefik.http.services.${PROJECT_NAME}.loadbalancer.server.port=${BLYNK_CONFIG_HTTP_PORT}"
-      - "traefik.http.middlewares.${PROJECT_NAME}-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.${PROJECT_NAME}.middlewares=${PROJECT_NAME}-https-redirect"
-      - "traefik.http.routers.${PROJECT_NAME}-sec.tls=true"
+      - "traefik.http.routers.${PROJECT_NAME}-sec.service=${PROJECT_NAME}-sec"
       - "traefik.http.routers.${PROJECT_NAME}-sec.rule=Host(`${BLYNK_CONFIG_HOST}`)"
       - "traefik.http.routers.${PROJECT_NAME}-sec.entrypoints=https"
-      - "traefik.http.routers.${PROJECT_NAME}-sec.service=${PROJECT_NAME}-sec"
+      - "traefik.http.routers.${PROJECT_NAME}-sec.tls=true"
+      - "traefik.http.routers.${PROJECT_NAME}-sec.tls.options=myTLSOptions@file"
+      - "traefik.http.routers.${PROJECT_NAME}-sec.tls.certresolver=le"
       - "traefik.http.services.${PROJECT_NAME}-sec.loadbalancer.server.port=${BLYNK_CONFIG_HTTPS_PORT}"
       - "traefik.port=${BLYNK_CONFIG_HTTPS_PORT}"
     restart: always
-    expose:
+    ports:
       - ${BLYNK_CONFIG_HTTP_PORT}
       - ${BLYNK_CONFIG_HTTPS_PORT}
-    ports:
-      - ${BLYNK_CONFIG_HTTP_PORT}:${BLYNK_CONFIG_HTTP_PORT}
-      - ${BLYNK_CONFIG_HTTPS_PORT}:${BLYNK_CONFIG_HTTPS_PORT}
     environment:
       BLYNK_HOST: ${BLYNK_CONFIG_HOST}
       BLYNK_FOLDER: /blynk
